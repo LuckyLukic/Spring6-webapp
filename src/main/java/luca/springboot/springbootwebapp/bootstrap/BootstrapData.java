@@ -42,14 +42,17 @@ public class BootstrapData implements CommandLineRunner {
         ari.setLastName("Ki");
 
         Book dmmt = new Book();
-        tagr.setTitle("Don't Make Me Think");
-        tagr.setIsbn("525335");
+        dmmt.setTitle("Don't Make Me Think");
+        dmmt.setIsbn("525335");
 
         Author ariSaved = authorRepository.save(ari);
         Book dmmtSaved = bookRepository.save(dmmt);
 
         lucaSaved.getBooks().add(tagrSaved);
         ariSaved.getBooks().add(dmmtSaved);
+        tagrSaved.getAuthors().add(lucaSaved);
+        dmmtSaved.getAuthors().add(ariSaved);
+
 
         Publisher publisher = new Publisher();
         publisher.setPublisherName("MyPublisher");
