@@ -2,8 +2,10 @@ package luca.springboot.springbootwebapp.bootstrap;
 
 import luca.springboot.springbootwebapp.domain.Author;
 import luca.springboot.springbootwebapp.domain.Book;
+import luca.springboot.springbootwebapp.domain.Publisher;
 import luca.springboot.springbootwebapp.repositories.AuthorRepository;
 import luca.springboot.springbootwebapp.repositories.BookRepository;
+import luca.springboot.springbootwebapp.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,9 @@ public class BootstrapData implements CommandLineRunner {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Autowired
+    PublisherRepository publisherRepository;
 
 
     @Override
@@ -46,13 +51,26 @@ public class BootstrapData implements CommandLineRunner {
         lucaSaved.getBooks().add(tagrSaved);
         ariSaved.getBooks().add(dmmtSaved);
 
+        Publisher publisher = new Publisher();
+        publisher.setPublisherName("MyPublisher");
+        publisher.setAddress("123 Murri");
+        Publisher savedPublisher = publisherRepository.save(publisher);
+
+        tagrSaved.setPublisher(savedPublisher);
+        dmmtSaved.setPublisher(savedPublisher);
+
         authorRepository.save(lucaSaved);
         authorRepository.save(ariSaved);
+        bookRepository.save(tagrSaved);
+        bookRepository.save(dmmtSaved);
+
 
         System.out.println("In Bootstrap");
         System.out.println("Author Count: " + authorRepository.count()  );
         System.out.println("Book Count: " + bookRepository.count()  );
 
 
+
+        System.out.println("Publisher Count: " + publisherRepository.count());
     }
 }
